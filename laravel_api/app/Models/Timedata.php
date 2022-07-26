@@ -5,12 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\User;
-use App\Models\Lesson;
-
-
-class Feedback extends Model
+class Timedata extends Model
 {
     use HasFactory;
-    protected $fillable = ['record_id','body'];
+    protected $fillable = ['minute', 'second'];
 }

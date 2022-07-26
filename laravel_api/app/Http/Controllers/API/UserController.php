@@ -25,10 +25,11 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'password' => $request->input('password')
         ])) {
-
+            $user = User::where('email', $request->input('email'))->first();
             return response()->json([
                 'status' => 200,
                 'message' => "Login thành công!",
+                'user' => $user,
             ]);
         }
         return response()->json([
@@ -64,5 +65,51 @@ class UserController extends Controller
             'status' => 200,
             'message' => "Đăng kí thành công!",
         ]);
+    }
+    public function teacherList()
+    {
+        $teachers = User::where('role', 'teacher')->get();
+        return response()->json([
+            'teachers' => $teachers,
+        ]);
+    }
+    public function update(Request $request, $id)
+    {
+        // $validator = Validator::make($request->all(), [
+        //     'username' => 'required|max:191',
+        //     'email' => 'required|email|max:191',
+        //     'phone_number' => 'required|numberic|max:10|min:9',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'validate_err' => $validator->messages(),
+        //     ]);
+        // }
+        // else
+        {
+            $User = User::find($id);
+            if($User)
+            {
+                $User->username = $request->input('username');
+                $User->email = $request->input('email');
+                $User->phone_number = $request->input('phone_number');
+                $User->firstname = $request->input('firstname');
+                $User->lastname = $request->input('lastname');
+                $User->update();
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'User Updated Successfully',
+                ]);
+            }
+            else
+            {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No User ID Found',
+                ]);
+            }
+        }
     }
 }
